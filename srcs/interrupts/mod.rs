@@ -135,7 +135,7 @@ pub extern "C" fn exception_handler(reg: &mut Registers) {
 		if int_no != 3 && int_no != 1 { /* TODO: HOW TO GET IF IT'S A TRAP OR NOT */
 			unsafe{core::arch::asm!("hlt")};
 		}
-	} else if int_no == 0x80 {
+	} else if int_no == 0x30 || int_no == 0x80 {
 		syscall_handler(reg);
 	} else {
 		if int_no < PIC1_IRQ_OFFSET as usize || int_no > PIC2_IRQ_OFFSET as usize + 7 {
