@@ -2,9 +2,11 @@ use crate::interrupts::Registers;
 
 pub mod signal;
 pub mod exit;
+pub mod write;
 
 use signal::sys_kill;
 use exit::{sys_waitpid, sys_wait4, sys_exit};
+use write::sys_write;
 
 // Parameters order: ebx, ecx, edx, esi, edi, ebp
 pub fn syscall_handler(reg: &mut Registers) {
@@ -13,6 +15,9 @@ pub fn syscall_handler(reg: &mut Registers) {
 	}
 	match reg.eax {
 		_ if reg.eax == Syscall::exit as u32 => sys_exit(reg.ebx as _),
+		_ if reg.eax == Syscall::write as u32 => {
+			sys_write(reg.ebx as _, reg.ecx as _, reg.edx as _) as u32;
+		},
 		_ if reg.eax == Syscall::waitpid as u32 => {
 			reg.eax = sys_waitpid(reg.ebx as _, reg.ecx as _, reg.edx as _) as u32
 		},
