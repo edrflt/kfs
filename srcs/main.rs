@@ -110,6 +110,8 @@ use crate::memory::MemoryZone;
 pub static mut KSTACK: MemoryZone = MemoryZone::new();
 pub static mut KHEAP: MemoryZone = MemoryZone::new();
 
+static TEXT: [u8; 5] = [b'H', b'e', b'l', b'l', b'o'];
+
 /*  Kernel initialisation   */
 #[no_mangle]
 pub extern "C" fn kinit() {
@@ -173,6 +175,15 @@ unsafe fn dumb_main(nb: usize) {
 //		crate::kprintln!("dumb{}", nb);
 		i += 1;
 	}
+	
+	unsafe
+	{
+		core::arch::asm!("mov eax, 4; mov ebx, 0; mov ecx, 0xc0111f0c; mov edx, 5; int 0x80");
+		//let len = 5;
+		//crate::kprintln!("{:p}", TEXT.as_ptr());
+		//sys_write(0, TEXT.as_ptr(), len);
+	}
+
 	if nb > 1 {
 		let mut status: i32 = 0;
 		let test: i32 = sys_waitpid(pid, &mut status, 0);
@@ -224,6 +235,7 @@ pub fn test_task2() {
 }
 
 use crate::syscalls::exit::sys_waitpid;
+use crate::syscalls::write::sys_write;
 
 #[no_mangle]
 pub extern "C" fn kmain() -> ! {
