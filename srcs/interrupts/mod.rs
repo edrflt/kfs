@@ -1,7 +1,7 @@
 use crate::syscalls::syscall_handler;
 
 const GDT_OFFSET_KERNEL_CODE: u16 = 0x08;
-const IDT_SIZE: usize = 48;
+const IDT_SIZE: usize = 256;
 const IDT_MAX_DESCRIPTORS: usize = 256;
 
 const EXCEPTION_SIZE: usize = 32;
