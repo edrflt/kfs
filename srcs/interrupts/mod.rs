@@ -79,7 +79,6 @@ pub struct Registers {
 	pub cs:			u32,
 	pub eflags:		u32,
 	pub useresp:	u32,
-	pub ss:			u32
 }
 
 impl Registers {
@@ -101,7 +100,6 @@ impl Registers {
 			cs:			0,
 			eflags:		0,
 			useresp:	0,
-			ss:			0
 		}
 	}
 }
