@@ -176,13 +176,17 @@ unsafe fn dumb_main(nb: usize) {
 		i += 1;
 	}
 	
-	unsafe
-	{
-		core::arch::asm!("mov eax, 4; mov ebx, 0; mov ecx, 0xc0111f0c; mov edx, 5; int 0x80");
-		//let len = 5;
-		//crate::kprintln!("{:p}", TEXT.as_ptr());
-		//sys_write(0, TEXT.as_ptr(), len);
-	}
+	//unsafe {
+	//	let len = 5;
+	//	crate::kprintln!("{:p}", TEXT.as_ptr());
+	//	sys_write(0, TEXT.as_ptr(), len);
+	//}
+	kprint!("{:p}", TEXT.as_ptr());
+	core::arch::asm!("mov edx, 0
+					mov ecx, 0xc011219c
+					mov ebx, 0
+					mov eax, 4
+					int 0x80"); /* test write exit */
 
 	if nb > 1 {
 		let mut status: i32 = 0;

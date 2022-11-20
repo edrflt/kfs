@@ -16,7 +16,7 @@ pub fn syscall_handler(reg: &mut Registers) {
 	match reg.eax {
 		_ if reg.eax == Syscall::exit as u32 => sys_exit(reg.ebx as _),
 		_ if reg.eax == Syscall::write as u32 => {
-			sys_write(reg.ebx as _, reg.ecx as _, reg.edx as _) as u32;
+			reg.eax = sys_write(reg.ebx as _, reg.ecx as _, reg.edx as _) as u32
 		},
 		_ if reg.eax == Syscall::waitpid as u32 => {
 			reg.eax = sys_waitpid(reg.ebx as _, reg.ecx as _, reg.edx as _) as u32
